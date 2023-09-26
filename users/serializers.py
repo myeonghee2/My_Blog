@@ -42,6 +42,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username'] = user.username
         return token    
     
-# class LogoutSerializer(serializers.Serializer):
-#     refresh_token = serializers.CharField(write_only=True)
-#     message = serializers.CharField(read_only=True)
+class LogoutSerializer(serializers.Serializer):
+    refresh_token = serializers.CharField(write_only=True)
+    message = serializers.CharField(read_only=True)

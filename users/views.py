@@ -1,11 +1,12 @@
 from rest_framework.generics import get_object_or_404
 from rest_framework import generics
+from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from users.serializers import CustomTokenObtainPairSerializer, UserProfileSerializer, UserSerializer
+from users.serializers import CustomTokenObtainPairSerializer, LogoutSerializer, UserProfileSerializer, UserSerializer
 from rest_framework_simplejwt.views import (
     TokenObtainPairView
 )
@@ -35,21 +36,21 @@ class FollowView(APIView):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+    
 
+class LogoutView(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = LogoutSerializer
 
-# class LogoutView(generics.CreateAPIView):
-#     permission_classes = (IsAuthenticated,)
-#     serializer_class = LogoutSerializer
+    def create(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-#     def create(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
+        refresh_token = serializer.validated_data["refresh_token"]
+        token = RefreshToken(refresh_token)
+        token.blacklist()
 
-#         refresh_token = serializer.validated_data["refresh_token"]
-#         token = RefreshToken(refresh_token)
-#         token.blacklist()
-
-#         return Response({"message":"로그아웃"}, status=status.HTTP_200_OK)
+        return Response({"message":"로그아웃"}, status=status.HTTP_200_OK)
 
 class ProfileView(APIView):
     def get(self, request):
