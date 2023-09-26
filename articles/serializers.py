@@ -19,14 +19,11 @@ class ArticleCreateSerializer(serializers.ModelSerializer):
 
 class ArticleListSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
-    likes_count = serializers.SerializerMethodField()
-    comments_count = serializers.SerializerMethodField()
-
 
     def get_user(self, obj):
         return obj.user.username
 
     class Meta:
         model = Article
-        fields = ("usernmae", "title", "updated_at")
+        fields = ("title", "user", "updated_at")
         
