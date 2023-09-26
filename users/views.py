@@ -4,9 +4,6 @@ from rest_framework.response import Response
 from users.serializers import UserSerializer
 
 
-
-# Create your views here.
-
 class UserView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
