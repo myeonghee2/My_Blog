@@ -21,6 +21,13 @@ class ArticleView(APIView):
        else:
            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
        
+class MyArticleListView(APIView):
+    def get(self, request):
+        articles = Article.objects.filter(user=request.user)
+        serializer = ArticleListSerializer(articles, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+       
 class ArticleDetailView(APIView):
     def get(self, request, article_id):
         article = get_object_or_404(Article, id=article_id)
@@ -61,6 +68,13 @@ class CommentView(APIView):
            return Response(serializer.data, status=status.HTTP_200_OK)
        else:
            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class MyCommentListView(APIView):
+    def get(self, request):
+        comments = Comment.objects.filter(user=request.user)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 
 class CommentDetailView(APIView):
     def put(self, request, article_id, comment_id):
