@@ -8,10 +8,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
     followers = serializers.StringRelatedField(many=True)
     followings = serializers.StringRelatedField(many=True)
     article_set = ArticleListSerializer(many=True)
+    like_articles = ArticleListSerializer(many=True)
+
 
     class Meta:
         model = User
-        fields =["username", "email", "nickname", "fullname", "date_of_birth", "followings", "followers", "article_set"] 
+        fields =["username", "email", "nickname", "fullname", "date_of_birth", "followings", "followers", "article_set", "like_articles"] 
 
 
 class UserSerializer(serializers.ModelSerializer):
