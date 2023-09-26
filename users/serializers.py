@@ -3,7 +3,6 @@ from rest_framework import serializers
 from users.models import User
 
 
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -29,3 +28,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         token['username'] = user.username
         return token    
+    
+# class LogoutSerializer(serializers.Serializer):
+#     refresh_token = serializers.CharField(write_only=True)
+#     message = serializers.CharField(read_only=True)
