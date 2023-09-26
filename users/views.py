@@ -36,7 +36,7 @@ class FollowView(APIView):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
-    
+
 
 class LogoutView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
